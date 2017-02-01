@@ -89,7 +89,7 @@ class FSM {
      */
 //check it
     clearHistory() {
-    	this.history = this.history[0];
+    	this.history = {};
     	this.step = 0;
     }
 }
