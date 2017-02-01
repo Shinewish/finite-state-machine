@@ -28,7 +28,6 @@ class FSM {
     	this.state = state;
     	this.history[this.step + 1] = state;
     	this.step++;
-// cut this.step++ ?    	
     }
 
     /**
@@ -47,7 +46,8 @@ class FSM {
      */
     reset() {
     	this.state = "normal";
-// history reset?
+    	this.history[this.step + 1] = this.state;
+    	this.step++;
     }
 
     /**
@@ -57,7 +57,17 @@ class FSM {
      * @returns {Array}
      */
     getStates(event) {
-// implement it    	
+    	if (event === undefined) {return ['normal', 'busy', 'hungry', 'sleeping']}
+
+    	var all = [],
+    		count = 0;
+    	for (var key in this.states) {
+    		if (this.states[key]["transitions"][event]) {
+    			all[count] = key;
+    			count++;
+    		}
+    	}
+    	return all;
     }
 
     /**
@@ -87,7 +97,6 @@ class FSM {
     /**
      * Clears transition history
      */
-//check it
     clearHistory() {
     	this.history = {};
     	this.step = 0;
