@@ -4,10 +4,10 @@ class FSM {
      * @param config
      */
     constructor(config) {
-//!add throw Error; 	
+		if (!config) {throw new Error("Config missing")}; 	
     	this.state = config.initial;
     	this.states = config.states;
-    	this.history = [];
+    	this.history = [config.initial];
     	this.step = 0;
     }
 
@@ -24,6 +24,7 @@ class FSM {
      * @param state
      */
     changeState(state) {
+    	if (this.states[state] === undefined) {throw new Error("Wrong state")};
     	this.state = state;
     	this.history[this.step + 1] = state;
     	this.step++;
@@ -35,7 +36,8 @@ class FSM {
      * @param event
      */
     trigger(event) {
-    	this.state = this.states[this.state][transitions][event];
+    	if (this.states[this.state]["transitions"][event] === undefined) {throw new Error("Wrong state")};
+    	this.state = this.states[this.state]["transitions"][event];
     	this.history[this.step + 1] = this.state;
     	this.step++;
     }
@@ -44,7 +46,7 @@ class FSM {
      * Resets FSM state to initial.
      */
     reset() {
-    	this.state = this.history[0];
+    	this.state = "normal";
 // history reset?
     }
 
@@ -65,8 +67,10 @@ class FSM {
      */
     undo() {
 // check if there is prev step
+		if (this.step == 0) {return false;}; 
     	this.state = this.history[this.step - 1];
     	this.step--;
+    	return true;
     }
 
     /**
