@@ -66,7 +66,6 @@ class FSM {
      * @returns {Boolean}
      */
     undo() {
-// check if there is prev step
 		if (this.step == 0) {return false;}; 
     	this.state = this.history[this.step - 1];
     	this.step--;
@@ -79,9 +78,10 @@ class FSM {
      * @returns {Boolean}
      */
     redo() {
-// check if there is next step
+		if (this.history[this.step + 1] == null) {return false;};
     	this.state = this.history[this.step + 1];
-    	this.step++;
+    	this.step++;    	
+    	return true;
     }
 
     /**
