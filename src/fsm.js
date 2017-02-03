@@ -98,7 +98,7 @@ class FSM {
      * Clears transition history
      */
     clearHistory() {
-    	this.history = {};
+    	this.history = [];
     	this.step = 0;
     }
 }
